@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Средняя линия</title>
+  </head>
+  <body>
+
+<!-- Начало калькулятора -->
+
+    <div style="width: 50rem; margin: auto; background: white; position:center;
+      align-self: center; top: 50rem; border-radius: 1.5rem; box-shadow: 4px 3px
+      20px #3535358c; display:flex; flex-direction: row; color:#963E7B;">
+      <div class="rightside" style="background-color: #ffffff; width: 100%;
+        padding: 1rem 2rem 3rem 3rem; border-bottom-right-radius: 1.5rem;
+        border-top-right-radius: 1.5rem; border-top-left-radius: 1.5rem;
+        border-bottom-left-radius: 1.5rem;">
+        <form action="" id="calc">
+          <h1>Средняя линия</h1>
+          <h2>Первый параметр</h2>
+          <div class="expcvv" style="display:flex; justify-content:
+            space-between;">
+            <p class="expcvv_text" style="padding-right: 1rem;">Параметр</p>
+            <select class="inputbox" style="color:#030303; width: 100%; padding:
+              0.5rem; border: none; border-bottom: 1.5px solid #ccc;
+              margin-bottom: 1rem; border-radius: 0.3rem; font-family: 'Roboto',
+              sans-serif; color: #615a5a; font-size: 1.1rem; font-weight: 500;
+              outline:none;" name="param1" id="param1" required>
+              <option value="radius">Радиус</option>
+              <option value="deflection">Прогиб</option>
+              <option value="chord">Хорда</option>
+            </select>
+
+            <p class="expcvv_text2" style="padding:0 1rem;">Значение</p>
+            <input type="number" class="inputbox" style="color:#030303; width:
+              100%; padding: 0.5rem; border: none; border-bottom: 1.5px solid
+              #ccc; margin-bottom: 1rem; border-radius: 0.3rem; font-family:
+              'Roboto', sans-serif; color: #615a5a; font-size: 1.1rem;
+              font-weight: 500; outline:none;" name="val_param1" id="val_param1"
+              step="1" value="1" required />
+          </div>
+
+          <h2>Второй параметр</h2>
+          <div class="expcvv" style="display:flex; justify-content:
+            space-between;">
+            <p class="expcvv_text" style="padding-right: 1rem;">Параметр</p>
+            <select class="inputbox" style="color:#030303; width: 100%; padding:
+              0.5rem; border: none; border-bottom: 1.5px solid #ccc;
+              margin-bottom: 1rem; border-radius: 0.3rem; font-family: 'Roboto',
+              sans-serif; color: #615a5a; font-size: 1.1rem; font-weight: 500;
+              outline:none;" name="param2" id="param2" required>
+              <option value="chord">Хорда</option>
+              <option value="deflection">Прогиб</option>
+              <option value="radius">Радиус</option>
+            </select>
+            <p class="expcvv_text2" style="padding:0 1rem;">Значение</p>
+            <input type="number" class="inputbox" style="color:#030303; width:
+              100%; padding: 0.5rem; border: none; border-bottom: 1.5px solid
+              #ccc; margin-bottom: 1rem; border-radius: 0.3rem; font-family:
+              'Roboto', sans-serif; color: #615a5a; font-size: 1.1rem;
+              font-weight: 500; outline:none;" name="val_param2" id="val_param2"
+              step="1" value="1" required />
+          </div>
+
+          <p style="display:block; font-size: 1.1rem; font-weight: 400; margin:
+            .8rem 0;">Тип</p>
+          <select class="inputbox" style="color:#030303; width: 100%; padding:
+            0.5rem; border: none; border-bottom: 1.5px solid #ccc;
+            margin-bottom: 1rem; border-radius: 0.3rem; font-family: 'Roboto',
+            sans-serif; color: #615a5a; font-size: 1.1rem; font-weight: 500;
+            outline:none;" name="type" id="type" required>
+            <option value="external">Наружный</option>
+            <option value="internal">Внутренний</option>
+          </select>
+          <p style="display:block; font-size: 1.1rem; font-weight: 400; margin:
+            .8rem 0;">Толщина (мм)</p>
+          <select class="inputbox" style="color:#030303; width: 100%; padding:
+            0.5rem; border: none; border-bottom: 1.5px solid #ccc;
+            margin-bottom: 1rem; border-radius: 0.3rem; font-family: 'Roboto',
+            sans-serif; color: #615a5a; font-size: 1.1rem; font-weight: 500;
+            outline:none;" name="thickness" id="thickness" required>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="15">15</option>
+            <option value="19">19</option>
+          </select>
+
+          <hr >
+
+          <p style="display:block; font-size: 1.1rem; font-weight: 400; margin:
+            .8rem 0; padding-bottom: 3px"><h2><div>Угол: <span id="corner" style="font-weight:bold"></span></div></h2></p>
+          <p style="display:block; font-size: 1.1rem; font-weight: 400; margin:
+            .8rem 0;"><h2><div>Средняя линия: <span id="midline"
+                style="font-weight:bold"></span></div></h2></p>
+
+        </form>
+      </div>
+    </div>
+
+<script>
+
+  const pi = 3.1415926535
+  var midline = 0;
+  document.getElementById("calc").addEventListener('input', function (e) {
+    var arg = {
+      "radius": 0, 
+      "chord": 0, 
+      "deflection": 0};
+    
+    arg[document.getElementById("param1").value] = document.getElementById("val_param1").value * 1;
+    arg[document.getElementById("param2").value] = document.getElementById("val_param2").value * 1;
+    
+    if (arg.chord == 0) {
+      arg.chord = Math.sqrt((8*arg.radius*arg.deflection)-(4*arg.deflection*arg.deflection));
+    }
+
+    if (arg.radius == 0) {
+      arg.radius = (arg.deflection/2)+(arg.chord*arg.chord)/(8*arg.deflection)
+    }
+
+    var corner = ((2*Math.asin(arg.chord/(arg.radius*2)))*180)/pi
+
+    document.getElementById("corner").innerText = corner.toFixed(2);
+
+    if (document.getElementById("type").value == "external") {
+      midline = (arg.radius - ((document.getElementById("thickness").value * 1)/2))*2*pi*corner/360
+    } else {
+      midline = arg.radius*2*pi*corner/360
+    }
+
+    document.getElementById("midline").innerText = midline.toFixed(2)
+  })
+</script>
+
+<!-- Конец калькулятора -->
+  </body>
+</html>
